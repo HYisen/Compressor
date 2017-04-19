@@ -16,6 +16,7 @@ void encode(std::istream &is, std::ostream &os)
 	using std::setw;
 	using std::unique_ptr;
 	using std::make_unique;
+    using std::flush;
 
 	static auto pNodeComp = [](const unique_ptr<Node> &lhs, const  unique_ptr<Node> &rhs)
 	{return lhs->item.weight < rhs->item.weight; };
@@ -28,13 +29,13 @@ void encode(std::istream &is, std::ostream &os)
 		++(stats[input]);
 		data.push_back(input);
 	}
-/*
+	/*
 	cout << "\nstatictics" << endl;
 	for (auto one : stats)
 	{
 		cout << setw(4) << one.second << " [" << one.first << "]" << endl;
 	}
-*/
+	*/
 	std::list<unique_ptr<Node>> stack;
 	for (auto one : stats)
 	{
@@ -45,13 +46,13 @@ void encode(std::istream &is, std::ostream &os)
 	unique_ptr<Node> l, r, p;
 	while (stack.size()>1)
 	{
-/*
+		/*
 		cout << "\ncurrent stack" << endl;
 		for (auto &one : stack)
 		{
 			cout << (*one).item << endl;
 		}
-*/
+		*/
 		//It would be quite difficult to combine the pop procedure because of rvalue.
 		l = std::move(stack.front());
 		stack.pop_front();
@@ -62,13 +63,13 @@ void encode(std::istream &is, std::ostream &os)
 		p = make_unique<Node>(Item{ l->item.weight + r->item.weight });
 		p->l = std::move(l);
 		p->r = std::move(r);
-/*
+		/*
 		cout
 			<< "\tinsert " << p->item
 			<< "\n\t l  =  " << p->l->item
 			<< "\n\t r  =  " << p->r->item
 			<< endl;
-*/
+		*/
 		//Searching from lowest or highest, which would be faster, that's a question.
 		auto it = std::lower_bound(stack.cbegin(), stack.cend(), p, pNodeComp);
 		stack.insert(it, std::move(p));
@@ -77,6 +78,7 @@ void encode(std::istream &is, std::ostream &os)
 	assert(stack.size() == 1);
 	std::map<Symbol, std::vector<bool>> codebook;
 	record(std::move(stack.back()), std::vector<bool>(), codebook);
+
 	cout << "\ncodebook" << endl;
 	for (auto one : codebook)
 	{
@@ -87,16 +89,31 @@ void encode(std::istream &is, std::ostream &os)
 		}
 		cout << endl;
 	}
-
-
-
-	/*for (auto one : data)
+    
+    //Maybe I should use sth else to store a 8-bit struct.
+    unsigned char byte{};
+    int cnt = sizeof(byte)*8;
+    cout << "count = " << cnt << endl;
+	for (auto one : data)
 	{
-		while (!((node->item).isFinal))
-		{
-
-		}
-	}*/
+        for (auto bit : codebook.at(one))
+        {
+            byte <<= 1;
+            byte += bit;
+            if ((--cnt) == 0)
+            {
+                cnt = sizeof(byte) * 8;
+                os << byte;
+                cout << " put " << std::hex << static_cast<int>(byte) << endl;;
+            }
+        }
+	}
+    if (cnt != sizeof(byte) * 8)
+    {
+        byte <<= cnt;
+        os << byte;
+        cout << " put " << std::hex << static_cast<int>(byte) << endl;;
+    }
 }
 
 void record(const std::unique_ptr<Node>& node, std::vector<bool>& trace, std::map<Symbol, std::vector<bool>>& codebook)

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fstream>
 
 
 void writeString(std::ostream &os, const std::string s)
@@ -26,8 +27,9 @@ int main()
 	cout << node.item << endl;
 
 	std::string text{ "this is an example of a huffman tree" };
-	std::istringstream is{text};
-	encode(is, std::cout);
-
+    std::istringstream is{ "abacab" };
+    std::ofstream os("out");
+	encode(is, os);
+    os.close();
 	system("pause");
 }

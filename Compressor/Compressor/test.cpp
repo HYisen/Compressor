@@ -18,6 +18,7 @@ int main()
 {
 	using std::cout;
 	using std::endl;
+    using std::string;
 
 	unsigned char ch = 'B';
 	Item ci{ 10,'D' }, ni{ 1,ch };
@@ -26,14 +27,20 @@ int main()
 	Node node{ {50} };
 	cout << node.item << endl;
 
-    std::string text0{ "this is an example of a huffman tree" };
-    std::string text1{ "abacab" };
-    std::istringstream is{ "abacab" };
-    std::ofstream os("out");
+    string text0{ "this is an example of a huffman tree" };
+    string text1{ "abacab" };
+    string &temp = text0;
+    std::ofstream ofs("out");
+    std::ostringstream oss{};
 
     Coder coder{};
-    coder.sample(std::istringstream{ text1 });
-	coder.encode(std::istringstream{ text1 }, os);
-    os.close();
+    cout << "\nencode" << endl;
+    cout << temp << endl;
+    coder.sample(std::istringstream{ temp });
+	coder.encode(std::istringstream{ temp }, ofs);
+    ofs.close();
+    coder.decode(std::ifstream("out"), oss);
+    cout << "\ndecode" << endl;
+    cout << oss.str() << endl;
 	system("pause");
 }

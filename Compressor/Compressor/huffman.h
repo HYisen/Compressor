@@ -19,4 +19,6 @@ private:
     //but would also make it possible to parallelize the job.
     //If it's in Java, a ConcurrentHashMap might be the best choice.
     void record(const std::unique_ptr<Node> &node, std::vector<bool> &trace, std::map<Symbol, std::vector<bool>> &codebook);
+
+    Symbol next(const std::unique_ptr<Node> &node, std::vector<bool> &trace);
 };

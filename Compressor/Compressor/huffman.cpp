@@ -181,6 +181,32 @@ void Coder::decode(std::istream & is, std::ostream & os)
     }
 }
 
+void Coder::load(std::istream & is)
+{
+    std::vector<Cell> data;
+    Cell cell{ Symbol{'!'},0,0};
+    while (is >> cell)
+    {
+        data.push_back(cell);
+    }
+    //std::cout << "load dict size = " << data.size() << std::endl;
+
+    tree = construct(data.front(), data);
+}
+
+void Coder::save(std::ostream & os)
+{
+    std::vector<Cell> data;
+    
+    install(tree, data);
+
+    for (auto one : data)
+    {
+        os << one;
+    }
+    //std::cout << "load dict size = " << data.size() << std::endl;
+}
+
 void Coder::record(const std::unique_ptr<Node>& node, std::vector<bool>& trace, std::map<Symbol, std::vector<bool>>& codebook)
 {
     if (node->item.isFinal)

@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /Compressor/Compressor/out
 /Compressor/Compressor/out
+/Compressor/Compressor/test

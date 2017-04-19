@@ -11,6 +11,9 @@ public:
     void sample(std::istream &is);
     void encode(std::istream &is, std::ostream &os);
     void decode(std::istream &is, std::ostream &os);
+
+    void load(std::istream &is);
+    void save(std::ostream &os);
 private:
     std::unique_ptr<Node> tree;
 

@@ -3,6 +3,10 @@
 #include <memory>
 #include <utility>
 #include <iostream>
+#include <vector>
+
+//I declear friend func even if the class is plain,
+//to ease the trouble when refactor to private data.
 
 class Symbol
 {
@@ -43,11 +47,48 @@ public:
 	std::unique_ptr<Node> r = nullptr;
 };
 
-class Tree
+//Cell is used to store tree structure in array.
+class Cell
 {
+    friend std::ostream &operator<<(std::ostream &os, const Cell &orig);
+    friend std::istream &operator>>(std::istream &is, Cell &orig);
+    friend size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);
+    friend std::unique_ptr<Node> construct(const Cell &orig, const std::vector<Cell> &container);
 public:
-	Tree();
-private:
+    //using size_t = unsigned char;
+    //Warning, it's of vital importance to determine the type of size_t,
+    //a too large type would be a waste of space,
+    //while a too small type would destroy the data.
 
-	std::shared_ptr<Node> root;
+    Symbol sym;
+    size_t l;
+    size_t r;
+    //l or r ==0 stands nullptr;
 };
+//There is a question, shall I inplement the << & >> operation as binary output & input?
+std::ostream &operator<<(std::ostream &os, const Cell &orig);
+std::istream &operator>>(std::istream &is, Cell &orig);
+
+//Install a Node as Cell together with its leaves, return where it located.
+size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);
+std::unique_ptr<Node> construct(const Cell &orig, const std::vector<Cell> &container);
+
+template<typename T>
+std::ostream & writeBinary(std::ostream & os, const T &orig);
+
+template<typename T>
+std::istream & readBinary(std::istream & is,T &orig);
+
+template<typename T>
+inline std::ostream & writeBinary(std::ostream & os, const T &orig)
+{
+    os.write(reinterpret_cast<const char*>(&orig), sizeof(T));
+    return os;
+}
+
+template<typename T>
+inline std::istream & readBinary(std::istream & is, T & orig)
+{
+    is.read(reinterpret_cast<char*>(&orig), sizeof(T));
+    return is;
+}

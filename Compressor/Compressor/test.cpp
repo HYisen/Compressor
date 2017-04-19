@@ -33,13 +33,15 @@ int main()
     std::ofstream ofs("out");
     std::ostringstream oss{};
 
-    Coder coder{};
+    Coder coder[2];
     cout << "\nencode" << endl;
     cout << temp << endl;
-    coder.sample(std::istringstream{ temp });
-	coder.encode(std::istringstream{ temp }, ofs);
+    coder[0].sample(std::istringstream{ temp });
+	coder[0].encode(std::istringstream{ temp }, ofs);
     ofs.close();
-    coder.decode(std::ifstream("out"), oss);
+    coder[0].save(std::ofstream("dict", std::ios::binary));
+    coder[1].load(std::ifstream("dict", std::ios::binary));
+    coder[1].decode(std::ifstream("out"), oss);
     cout << "\ndecode" << endl;
     cout << oss.str() << endl;
 	system("pause");

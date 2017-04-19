@@ -26,10 +26,14 @@ int main()
 	Node node{ {50} };
 	cout << node.item << endl;
 
-	std::string text{ "this is an example of a huffman tree" };
+    std::string text0{ "this is an example of a huffman tree" };
+    std::string text1{ "abacab" };
     std::istringstream is{ "abacab" };
     std::ofstream os("out");
-	encode(is, os);
+
+    Coder coder{};
+    coder.sample(std::istringstream{ text1 });
+	coder.encode(std::istringstream{ text1 }, os);
     os.close();
 	system("pause");
 }

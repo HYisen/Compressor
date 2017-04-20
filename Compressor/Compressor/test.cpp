@@ -27,21 +27,27 @@ int main()
 	Node node{ {50} };
 	cout << node.item << endl;
 
-    string text0{ "this is an example of a huffman tree" };
-    string text1{ "abacab" };
-    string &temp = text0;
-    std::ofstream ofs("out");
+    const string text0{ "this is an example of a huffman tree" };
+    const string text1{ "abacab" };
+    const string &temp = text0;
+    ;
     std::ostringstream oss{};
+
+    cout << "sizeof(Cell) = " << sizeof(Cell) << endl;
+    cout << "sizeof(Symbol) = " << sizeof(Symbol) << endl;
 
     Coder coder[2];
     cout << "\nencode" << endl;
     cout << temp << endl;
-    coder[0].sample(std::istringstream{ temp });
-	coder[0].encode(std::istringstream{ temp }, ofs);
-    ofs.close();
-    coder[0].save(std::ofstream("dict", std::ios::binary));
-    coder[1].load(std::ifstream("dict", std::ios::binary));
-    coder[1].decode(std::ifstream("out"), oss);
+    const string textName{ "sample" };
+    //std::istringstream{ temp }
+    coder[0].sample(std::ifstream(textName));
+    const string encrName{ "out" };
+    coder[0].encode(std::ifstream(textName), std::ofstream(encrName, std::ios::binary));
+    const string dictName{ "dict" };
+    coder[0].save(std::ofstream(dictName, std::ios::binary));
+    coder[1].load(std::ifstream(dictName, std::ios::binary));
+    coder[1].decode(std::ifstream(encrName, std::ios::binary), oss);
     cout << "\ndecode" << endl;
     cout << oss.str() << endl;
 	system("pause");

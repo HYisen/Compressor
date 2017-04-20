@@ -112,28 +112,29 @@ void Coder::encode(std::istream & is, std::ostream & os)
         //If the input is not in the tree, an Exception shall be throwed.
         for (auto bit : codebook.at(input))
         {
+            //cout << "  put bit " << bit << endl;
             byte <<= 1;
             byte += bit;
             if ((--cnt) == 0)
             {
                 cnt = SIZE;
-                os << byte;
-                //cout << " put " << std::hex << static_cast<int>(byte) << endl;;
+                writeBinary(os, byte);
+                //cout << " put " << std::hex << static_cast<int>(byte) << endl;
             }
         }
     }
     if (cnt != SIZE)
     {
         byte <<= cnt;
-        os << byte;
-        //cout << " put " << std::hex << static_cast<int>(byte) << endl;;
+        writeBinary(os, byte);
+        //cout << " put " << std::hex << static_cast<int>(byte) << endl;
 
         //Add an extra byte to record the length of the padding bits.
-        os << static_cast<decltype(byte)>(cnt);
+        writeBinary(os, static_cast<decltype(byte)>(cnt));
     }
     else
     {
-        os << static_cast<decltype(byte)>(0);
+        writeBinary(os, static_cast<decltype(byte)>(0));
     }
 }
 
@@ -146,8 +147,9 @@ void Coder::decode(std::istream & is, std::ostream & os)
     unsigned char byte{};
     constexpr int SIZE = (sizeof byte) * 8;
     std::vector<decltype(byte)> buff;
-    while (is >> byte)
+    while (readBinary(is,byte))
     {
+        //cout << " read " << std::hex << static_cast<int>(byte) << endl;
         buff.push_back(byte);
     }
     int padSize = buff.back();
@@ -159,7 +161,7 @@ void Coder::decode(std::istream & is, std::ostream & os)
         for (int k = 0; k != SIZE; ++k)
         {
             data.push_back(static_cast<bool>(one&(1UL << (SIZE - 1 - k))));
-            //cout << "  get bit " << static_cast<bool>(one&(1UL << k)) << endl;
+            //cout << "  get bit " << static_cast<bool>(one&(1UL << (SIZE - 1 - k))) << endl;
         }
     }
     for (int k = 0; k != padSize; ++k)
@@ -168,6 +170,7 @@ void Coder::decode(std::istream & is, std::ostream & os)
     }
 
     cout << "\ndata" << endl;
+    cout << "\nlength = " << data.size() << endl;
     for (auto bit : data)
     {
         cout << bit;

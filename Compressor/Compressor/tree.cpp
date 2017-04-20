@@ -27,7 +27,7 @@ std::ostream & operator<<(std::ostream & os, const Item &orig)
     return os;
 }
 
-std::ostream & operator<<(std::ostream & os, const Cell & orig)
+std::ostream & writeBinary(std::ostream & os, const Cell & orig)
 {
     writeBinary(os, orig.sym);
     writeBinary(os, orig.l);
@@ -36,7 +36,7 @@ std::ostream & operator<<(std::ostream & os, const Cell & orig)
     return os;
 }
 
-std::istream & operator>>(std::istream & is, Cell & orig)
+std::istream & readBinary(std::istream & is, Cell & orig)
 {
     readBinary(is, orig.sym);
     readBinary(is, orig.l);

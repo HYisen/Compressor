@@ -32,7 +32,7 @@ void Coder::sample(std::istream & is)
     cout << "\nstatictics" << endl;
     for (auto one : stats)
     {
-    cout << setw(4) << one.second << " [" << one.first << "]" << endl;
+        cout << setw(4) << one.second << " [" << one.first << "]" << endl;
     }
     */
     std::list<unique_ptr<Node>> stack;
@@ -188,7 +188,7 @@ void Coder::load(std::istream & is)
 {
     std::vector<Cell> data;
     Cell cell{ Symbol{'!'},0,0};
-    while (is >> cell)
+    while (readBinary(is,cell))
     {
         data.push_back(cell);
     }
@@ -205,7 +205,7 @@ void Coder::save(std::ostream & os)
 
     for (auto one : data)
     {
-        os << one;
+        writeBinary(os,one);
     }
     //std::cout << "load dict size = " << data.size() << std::endl;
 }

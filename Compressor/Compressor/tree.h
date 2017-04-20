@@ -50,8 +50,8 @@ public:
 //Cell is used to store tree structure in array.
 class Cell
 {
-    friend std::ostream &operator<<(std::ostream &os, const Cell &orig);
-    friend std::istream &operator>>(std::istream &is, Cell &orig);
+    friend std::ostream & writeBinary(std::ostream &os, const Cell &orig);
+    friend std::istream & readBinary(std::istream &is, Cell &orig);
     friend size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);
     friend std::unique_ptr<Node> construct(const Cell &orig, const std::vector<Cell> &container);
 public:
@@ -65,9 +65,8 @@ public:
     size_t r;
     //l or r ==0 stands nullptr;
 };
-//There is a question, shall I inplement the << & >> operation as binary output & input?
-std::ostream &operator<<(std::ostream &os, const Cell &orig);
-std::istream &operator>>(std::istream &is, Cell &orig);
+std::ostream & writeBinary(std::ostream &os, const Cell &orig);
+std::istream & readBinary(std::istream &is, Cell &orig);
 
 //Install a Node as Cell together with its leaves, return where it located.
 size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);

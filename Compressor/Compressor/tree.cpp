@@ -116,6 +116,6 @@ Symbol &Symbol::operator=(const Symbol &orig)
 
 Symbol Symbol::signal()
 {
-    return Symbol(255);
+    return Symbol{'\003'};
 }
 

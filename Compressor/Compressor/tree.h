@@ -15,6 +15,9 @@ class Symbol
 	friend bool operator<(const Symbol &lhs, const Symbol &rhs);
 public:
 	Symbol(unsigned char c) : content(c) {};
+    Symbol(const Symbol &orig) :content(orig.content) {};
+    Symbol() = default;
+    Symbol &operator= (const Symbol &orig);
 private:
 	//Actually, I prefere std::byte.
 	unsigned char content;

@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bwt.h" />
     <ClInclude Include="huffman.h" />
     <ClInclude Include="tree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bwt.cpp" />
     <ClCompile Include="huffman.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="tree.cpp" />

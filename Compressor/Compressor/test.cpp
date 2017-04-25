@@ -1,31 +1,25 @@
 #include "tree.h"
 
 #include "huffman.h"
+#include "bwt.h"
 
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <fstream>
 
-
-void writeString(std::ostream &os, const std::string s)
+void testHuffman()
 {
-	os << s << std::endl;
-}
-
-
-int main()
-{
-	using std::cout;
-	using std::endl;
+    using std::cout;
+    using std::endl;
     using std::string;
 
-	unsigned char ch = 'B';
-	Item ci{ 10,'D' }, ni{ 1,ch };
-	cout << ci << endl << ni << endl;
+    unsigned char ch = 'B';
+    Item ci{ 10,'D' }, ni{ 1,ch };
+    cout << ci << endl << ni << endl;
 
-	Node node{ {50} };
-	cout << node.item << endl;
+    Node node{ { 50 } };
+    cout << node.item << endl;
 
     const string text0{ "this is an example of a huffman tree" };
     const string text1{ "abacab" };
@@ -50,5 +44,23 @@ int main()
     coder[1].decode(std::ifstream(encrName, std::ios::binary), oss);
     cout << "\ndecode" << endl;
     cout << oss.str() << endl;
-	system("pause");
+}
+
+void testBwt()
+{
+    using std::cout;
+    using std::endl;
+    using std::string;
+
+    std::ostringstream oss{};
+    bwt::encode(std::istringstream{ "^BANANA|" }, oss);
+    cout << "\ndecode" << endl;
+    cout << oss.str() << endl;
+}
+
+int main()
+{
+    //testHuffman();
+    testBwt();
+    system("pause");
 }

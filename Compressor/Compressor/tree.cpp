@@ -90,3 +90,9 @@ std::unique_ptr<Node> construct(const Cell & orig, const std::vector<Cell>& cont
         return std::move(rtn);
     }
 }
+
+Symbol &Symbol::operator=(const Symbol &orig)
+{
+    content = orig.content;
+    return *this;
+}

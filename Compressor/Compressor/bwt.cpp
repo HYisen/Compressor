@@ -94,6 +94,7 @@ void bwt::decode(std::istream & is, std::ostream & os)
 
     auto rtn= *(std::find_if(matrix.cbegin(), matrix.cend(),
         [](const decltype(matrix)::value_type &str) {return str.back() == Symbol::signal(); }));
+    rtn.pop_back();//remove the EOF signal added in encode()
     for (auto sym : rtn)
     {
         os << sym;

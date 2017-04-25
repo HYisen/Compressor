@@ -19,6 +19,23 @@ bool operator<(const Symbol & lhs, const Symbol & rhs)
     return lhs.content < rhs.content;
 }
 
+bool operator==(const Symbol & lhs, const Symbol & rhs)
+{
+    return lhs.content==rhs.content;
+}
+
+std::vector<Symbol> readAll(std::istream & is)
+{
+    std::vector<Symbol> rtn;
+    Symbol input{ 0 };
+    //It's formated input rather than the binary one, should it?
+    while (is >> input)
+    {
+        rtn.push_back(input);
+    }
+    return rtn;
+}
+
 std::ostream & operator<<(std::ostream & os, const Item &orig)
 {
     os << "{\"isFinal\":" << orig.isFinal <<
@@ -96,3 +113,9 @@ Symbol &Symbol::operator=(const Symbol &orig)
     content = orig.content;
     return *this;
 }
+
+Symbol Symbol::signal()
+{
+    return Symbol(255);
+}
+

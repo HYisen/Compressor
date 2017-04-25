@@ -51,16 +51,24 @@ void testBwt()
     using std::cout;
     using std::endl;
     using std::string;
+    using std::ostringstream;
+    using std::istringstream;
 
-    std::ostringstream oss{};
-    bwt::encode(std::istringstream{ "^BANANA|" }, oss);
+    ostringstream oss{};
+    bwt::encode(istringstream{ "^BANANA" }, oss);
+    cout << "\ndecode" << endl;
+    cout << oss.str() << endl;
+
+    string encrpted{ oss.str() };
+    oss = ostringstream{};
+    bwt::decode(istringstream{ encrpted }, oss);
     cout << "\ndecode" << endl;
     cout << oss.str() << endl;
 }
 
 int main()
 {
-    //testHuffman();
+    testHuffman();
     testBwt();
     system("pause");
 }

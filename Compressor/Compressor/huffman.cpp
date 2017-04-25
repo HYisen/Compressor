@@ -21,12 +21,10 @@ void Coder::sample(std::istream & is)
     {return lhs->item.weight < rhs->item.weight; };
 
     std::map<Symbol, int> stats;
-    std::vector<Symbol> data;
-    Symbol input{ 0 };
-    while (is >> input)
+    std::vector<Symbol> data=readAll(is);
+    for (auto sym : data)
     {
-        ++(stats[input]);
-        data.push_back(input);
+        ++(stats[sym]);
     }
     /*
     cout << "\nstatictics" << endl;

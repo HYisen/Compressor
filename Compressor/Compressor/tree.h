@@ -14,6 +14,7 @@ class Symbol
 	friend std::istream &operator>>(std::istream &is, Symbol &orig);
 	friend bool operator<(const Symbol &lhs, const Symbol &rhs);
     friend bool operator==(const Symbol &lhs, const Symbol &rhs);
+    friend bool operator!=(const Symbol &lhs, const Symbol &rhs);
 public:
 	Symbol(unsigned char c) : content(c) {};
     Symbol(const Symbol &orig) :content(orig.content) {};
@@ -30,6 +31,7 @@ std::ostream &operator<<(std::ostream &os, const Symbol &orig);
 std::istream &operator>>(std::istream &is,Symbol &orig);
 bool operator<(const Symbol &lhs, const Symbol &rhs);
 bool operator==(const Symbol &lhs, const Symbol &rhs);
+bool operator!=(const Symbol &lhs, const Symbol &rhs);
 std::vector<Symbol> readAll(std::istream &is);
 
 class Item

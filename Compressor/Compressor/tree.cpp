@@ -24,6 +24,11 @@ bool operator==(const Symbol & lhs, const Symbol & rhs)
     return lhs.content==rhs.content;
 }
 
+bool operator!=(const Symbol & lhs, const Symbol & rhs)
+{
+    return !(lhs==rhs);
+}
+
 std::vector<Symbol> readAll(std::istream & is)
 {
     std::vector<Symbol> rtn;

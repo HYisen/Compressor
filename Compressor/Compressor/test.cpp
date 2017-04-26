@@ -2,6 +2,7 @@
 
 #include "huffman.h"
 #include "bwt.h"
+#include "mtf.h"
 
 #include <iostream>
 #include <sstream>
@@ -66,9 +67,32 @@ void testBwt()
     cout << oss.str() << endl;
 }
 
+void testMtf()
+{
+    using std::cout;
+    using std::endl;
+    using std::string;
+    using std::ostringstream;
+    using std::istringstream;
+
+    ostringstream oss{};
+    string alphabet{ "abcdefghijklmnopqrstuvwxyz" };
+    mtf::dict_type dict(alphabet.cbegin(),alphabet.cend());
+    mtf::encode(istringstream{ "bananaaa" }, oss, dict);
+    cout << "\ndecode" << endl;
+    cout << oss.str() << endl;
+
+    string encrpted{ oss.str() };
+    oss = ostringstream{};
+    mtf::decode(istringstream{ encrpted }, oss, dict);
+    cout << "\ndecode" << endl;
+    cout << oss.str() << endl;
+}
+
 int main()
 {
-    testHuffman();
-    testBwt();
+    //testHuffman();
+    //testBwt();
+    testMtf();
     system("pause");
 }

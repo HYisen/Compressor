@@ -79,10 +79,15 @@ void testMtf()
     string alphabet{ "abcdefghijklmnopqrstuvwxyz" };
     mtf::dict_type dict(alphabet.cbegin(),alphabet.cend());
     mtf::encode(istringstream{ "bananaaa" }, oss, dict);
-    cout << "\ndecode" << endl;
-    cout << oss.str() << endl;
-
+    cout << "\nencode" << endl;
     string encrpted{ oss.str() };
+    istringstream reader{ encrpted };
+    size_t index;
+    while (readBinary(reader, index))
+    {
+        cout << index << std::ends;
+    }
+    cout << endl;
     oss = ostringstream{};
     mtf::decode(istringstream{ encrpted }, oss, dict);
     cout << "\ndecode" << endl;

@@ -11,6 +11,15 @@ void printDict(const mtf::dict_type &orig)
     }
 }
 
+inline void moveToFront(mtf::dict_type::size_type index, mtf::dict_type & container)
+{
+    if (index != 0)
+    {
+        container.push_front(container.at(index));
+        container.erase(container.cbegin() + index + 1);
+    }
+}
+
 void mtf::encode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
 {
     using std::cout;
@@ -20,8 +29,8 @@ void mtf::encode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
 
     for (auto sym : data)
     {
-        cout << "\ninput " << sym << endl;
-        printDict(dict);
+        //cout << "\ninput " << sym << endl;
+        //printDict(dict);
         
         //index-based solution
         //find & output index
@@ -37,17 +46,11 @@ void mtf::encode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
         {
             dict.push_back(sym);
         }
-        //formatted output for clarity in debug
-        os << k << std::ends;
-        //writeBinary(os, k);
-        cout << "output " << k << endl;
+        writeBinary(os, k);
+        //cout << "output " << k << endl;
 
         //modify the dictionary
-        if (k != 0)
-        {
-            dict.push_front(dict.at(k));
-            dict.erase(dict.cbegin() + k + 1);
-        }
+        moveToFront(k, dict);
         
         /*
         //iterator-based solution
@@ -61,8 +64,6 @@ void mtf::encode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
             //although if it is index-based, it is still usable.
         }
         auto diff = it - dict.cbegin();
-        //formatted output for clarity in debug
-        os << diff << std::ends;
         //writeBinary(os, diff);
         cout << "output " << diff << endl;
 
@@ -79,4 +80,28 @@ void mtf::encode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
 
 void mtf::decode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
 {
+    using std::cout;
+    using std::endl;
+
+    using input_type = size_t;
+    std::vector<input_type> data;
+    input_type input;
+    while (readBinary(is, input))
+    {
+        data.push_back(input);
+    }
+
+    std::sort(dict.begin(), dict.end());
+
+    for (auto index : data)
+    {
+        //cout << "\ninput " << index << endl;
+        //printDict(dict);
+        os << dict.at(index);
+        //cout << "output " << dict.at(index) << endl;
+        moveToFront(index, dict);
+    }
+
+    //cout << "\nfinal dict " << endl;
+    //printDict(dict);
 }

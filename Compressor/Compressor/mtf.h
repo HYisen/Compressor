@@ -13,7 +13,7 @@ namespace mtf
     //while list is on the contrast. It's hard to decide as the two methods are usually invoked together.
     using dict_type = std::deque<Symbol>;
 
-    void encode(std::istream &is, std::ostream &os, dict_type &dict);
+    void encode(std::istream &is, std::ostream &os, const dict_type &dictionary);
     //I didn't claim that dict is const, which means it will be ruined in the func.
-    void decode(std::istream &is, std::ostream &os, dict_type &dict);
+    void decode(std::istream &is, std::ostream &os, const dict_type &dictionary);
 }

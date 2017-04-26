@@ -83,17 +83,10 @@ void mtf::decode(std::istream & is, std::ostream & os, mtf::dict_type & dict)
     using std::cout;
     using std::endl;
 
-    using input_type = size_t;
-    std::vector<input_type> data;
-    input_type input;
-    while (readBinary(is, input))
-    {
-        data.push_back(input);
-    }
-
     std::sort(dict.begin(), dict.end());
 
-    for (auto index : data)
+    mtf::dict_type::size_type index;
+    while (readBinary(is, index))
     {
         //cout << "\ninput " << index << endl;
         //printDict(dict);

@@ -49,24 +49,6 @@ std::ostream & operator<<(std::ostream & os, const Item &orig)
     return os;
 }
 
-std::ostream & writeBinary(std::ostream & os, const Cell & orig)
-{
-    writeBinary(os, orig.sym);
-    writeBinary(os, orig.l);
-    writeBinary(os, orig.r);
-    //std::cout << "save " << orig.sym << " l=" << orig.l << " r=" << orig.r << std::endl;
-    return os;
-}
-
-std::istream & readBinary(std::istream & is, Cell & orig)
-{
-    readBinary(is, orig.sym);
-    readBinary(is, orig.l);
-    readBinary(is, orig.r);
-    //std::cout << "load " << orig.sym<<" l="<<orig.l<<" r="<<orig.r<<std::endl;
-    return is;
-}
-
 size_t install(const std::unique_ptr<Node>& node, std::vector<Cell>& container)
 {
     if (node == nullptr)

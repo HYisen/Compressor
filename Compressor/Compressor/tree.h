@@ -61,8 +61,6 @@ public:
 //Cell is used to store tree structure in array.
 class Cell
 {
-    friend std::ostream & writeBinary(std::ostream &os, const Cell &orig);
-    friend std::istream & readBinary(std::istream &is, Cell &orig);
     friend size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);
     friend std::unique_ptr<Node> construct(const Cell &orig, const std::vector<Cell> &container);
 public:
@@ -76,8 +74,6 @@ public:
     size_t r;
     //l or r ==0 stands nullptr;
 };
-std::ostream & writeBinary(std::ostream &os, const Cell &orig);
-std::istream & readBinary(std::istream &is, Cell &orig);
 
 //Install a Node as Cell together with its leaves, return where it located.
 size_t install(const std::unique_ptr<Node> &node, std::vector<Cell> &container);
@@ -88,6 +84,12 @@ std::ostream & writeBinary(std::ostream & os, const T &orig);
 
 template<typename T>
 std::istream & readBinary(std::istream & is,T &orig);
+
+template<>
+std::ostream & writeBinary(std::ostream &os, const Cell &orig);
+
+template<>
+std::istream & readBinary(std::istream &is, Cell &orig);
 
 template<typename T>
 inline std::ostream & writeBinary(std::ostream & os, const T &orig)
@@ -100,5 +102,25 @@ template<typename T>
 inline std::istream & readBinary(std::istream & is, T & orig)
 {
     is.read(reinterpret_cast<char*>(&orig), sizeof(T));
+    return is;
+}
+
+template<>
+inline std::ostream & writeBinary(std::ostream & os, const Cell & orig)
+{
+    writeBinary(os, orig.sym);
+    writeBinary(os, orig.l);
+    writeBinary(os, orig.r);
+    //std::cout << "save " << orig.sym << " l=" << orig.l << " r=" << orig.r << std::endl;
+    return os;
+}
+
+template<>
+inline std::istream & readBinary(std::istream & is, Cell & orig)
+{
+    readBinary(is, orig.sym);
+    readBinary(is, orig.l);
+    readBinary(is, orig.r);
+    //std::cout << "load " << orig.sym<<" l="<<orig.l<<" r="<<orig.r<<std::endl;
     return is;
 }
